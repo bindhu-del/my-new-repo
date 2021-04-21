@@ -1,0 +1,48 @@
+Feature: Payment selection 
+	Scenario Outline: Payment selection of Travel and Insurance(Sepa for Travel and Insurance)
+		Given Open "Book" page for travelers
+        | Adults        | Children            | Infants               |
+        | <Adults>    |  <Children>      |   <Infants>      |
+		 When Input personal data form with the following table     
+      | gender | firstname | surname        | birthdate               | street                        | nr           | zipcode    | city                    | country      | email                                          | phone               |
+      |Herr       |Max             |traveltainment|01-01-1970            | Carlo-Schmidt-Str. | 12          | 12345      |Würselen            |Deutschland| no-reply@traveltainment.de  | 02405 44 84 0 | 
+          Then the checkbox "Idata-qa-traveler-check" is activated
+          Then the personal data will displayed in the 1.traveler box
+           When input the 2. traveler form with the following table
+           | gender            | firstname       | surname               | birthdate           | nationality          |
+           |Herr                  | Hans               | traveltainment    | <birthdate>       | deutsch              |
+   
+         When select "first" insurance 
+         When activate the checkbox "termsCheckbox"
+         When select the travel and insurance payment Method from the following table for Travel
+     		| Travel Payment Method      | Insurance Payment Method     |
+            | <Travel Payment Method> | <Insurance Payment Method> |
+           Then infotext "<infotext>" is displayed       
+            When activate the checkbox "legalNotice"
+             When book
+             Then a booking number should be displayed
+
+@2Adults
+	Examples: 
+   	| Adults| Children  | Infants |birthdate       | Travel Payment Method | Insurance Payment Method | infotext |
+    | 2         |   0         | 0              |01-01-1970| banktransfer                    |     cc - visa                          | Die von Ihnen gewählte Zahlungsart wird von der Versicherung leider nicht unterstützt. Bitte wählen Sie hier die Zahlungsart für Ihre Versicherung aus.  |
+    | 2         |   0         | 0            |01-01-1970| banktransfer                      |     cc - mastercard             | Die von Ihnen gewählte Zahlungsart wird von der Versicherung leider nicht unterstützt. Bitte wählen Sie hier die Zahlungsart für Ihre Versicherung aus.  |
+    | 2         |   0         | 0            |01-01-1970| banktransfer                      |     sepa                                 | Die von Ihnen gewählte Zahlungsart wird von der Versicherung leider nicht unterstützt. Bitte wählen Sie hier die Zahlungsart für Ihre Versicherung aus.  |
+    | 2         |   0         | 0            |01-01-1970|cc - visa                                 |      cc - visa                        |   |
+    | 2         |   0         | 0            |01-01-1970|cc - mastercard                    |     cc -mastercard              |   |
+    | 2         |   0         | 0            |01-01-1970|cc - visa                              |     sepa                                  |   |
+    | 2         |   0         | 0            |01-01-1970|cc - mastercard                 |     sepa                                  |   |
+    | 2         |   0         | 0            |01-01-1970|cc - americanexpress       |     sepa                                  |   |
+    | 2         |   0         | 0            |01-01-1970|cc - dinnerclub                   |     sepa                                  |   |
+    | 2         |   0         | 0            |01-01-1970| phone                                |     cc - visa                            | Die von Ihnen gewählte Zahlungsart wird von der Versicherung leider nicht unterstützt. Bitte wählen Sie hier die Zahlungsart für Ihre Versicherung aus.  |
+    | 2         |   0         | 0            |01-01-1970| phone                                |     cc - mastercard               | Die von Ihnen gewählte Zahlungsart wird von der Versicherung leider nicht unterstützt. Bitte wählen Sie hier die Zahlungsart für Ihre Versicherung aus.  |
+    | 2         |   0         | 0            |01-01-1970| phone                                |     sepa                                   | Die von Ihnen gewählte Zahlungsart wird von der Versicherung leider nicht unterstützt. Bitte wählen Sie hier die Zahlungsart für Ihre Versicherung aus.  |
+    | 2         |   0         | 0            |01-01-1970| paypal                                |     sepa                                   | Leider steht hierfür im Moment keine Zahlart zur Verfügung. Bitte wählen Sie daher eine andere Zahlart als "PayPal" für ihre Reise.                                      |
+    | 2         |   0         | 0            |01-01-1970|sepa                                      |     sepa                                   |   |
+    | 2         |   0         | 0            |01-01-1970|sepa                                      |    cc - visa                               |   |
+    | 2         |   0         | 0            |01-01-1970|sepa                                      |    cc - mastercard                  |   |
+    | 2         |   0         | 0              |01-01-1970| sepa                                  |      cc - visa                          | Die von Ihnen gewählte Zahlungsart wird von der Versicherung leider nicht unterstützt. Bitte wählen Sie hier die Zahlungsart für Ihre Versicherung aus.  |
+    | 2        |   2            | 0            |01-02-2014|sepa                                    |    sepa                                      | Die von Ihnen gewählte Zahlungsart wird von der Reise leider nicht unterstützt. Bitte wählen Sie hier die Zahlungsart für Ihre Reise aus.  |
+    | 2        |   2            | 0            |01-02-2014|sepa                                    |    cc - visa                                | Die von Ihnen gewählte Zahlungsart wird von der Reise leider nicht unterstützt. Bitte wählen Sie hier die Zahlungsart für Ihre Reise aus.  |
+    | 2        |   2            | 0            |01-02-2014|sepa                                    |    cc - mastercard                   | Die von Ihnen gewählte Zahlungsart wird von der Reise leider nicht unterstützt. Bitte wählen Sie hier die Zahlungsart für Ihre Reise aus.  |
+        
